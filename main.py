@@ -2,6 +2,7 @@ import argparse
 from datetime import datetime
 from services.booking import check_availability, reserve_cabin
 
+
 def main():
     parser = argparse.ArgumentParser(description="Система бронирования кабинетов")
     parser.add_argument("action", choices=["check", "reserve"])
@@ -18,14 +19,16 @@ def main():
     if args.action == "check":
         print(check_availability(args.cabin, time))
     elif args.action == "reserve":
-        print(reserve_cabin(
-            args.cabin,
-            args.user_name,
-            args.user_email,
-            args.user_phone,
-            time,
-            args.duration
-        ))
+        print(
+            reserve_cabin(
+                args.cabin,
+                args.user_name,
+                args.user_email,
+                args.user_phone,
+                time,
+                args.duration,
+            )
+        )
 
 
 if __name__ == "__main__":

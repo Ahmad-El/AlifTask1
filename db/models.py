@@ -5,16 +5,16 @@ Base = declarative_base()
 
 
 class Cabin(Base):
-    __tablename__ = 'cabins'
+    __tablename__ = "cabins"
     id = Column(Integer, primary_key=True)
     number = Column(Integer, unique=True, nullable=False)
     reservations = relationship("Reservation", back_populates="cabin")
 
 
 class Reservation(Base):
-    __tablename__ = 'reservations'
+    __tablename__ = "reservations"
     id = Column(Integer, primary_key=True)
-    cabin_id = Column(Integer, ForeignKey('cabins.id'))
+    cabin_id = Column(Integer, ForeignKey("cabins.id"))
     user_name = Column(String)
     user_email = Column(String)
     user_phone = Column(String)

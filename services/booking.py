@@ -12,29 +12,39 @@ def check_availability(cabin_number, check_time):
     if not cabin:
         return f"Кабинет {cabin_number} не существует."
 
-    reservation = session.query(Reservation).filter(
-        Reservation.cabin_id == cabin.id,
-        Reservation.start_time <= check_time,
-        Reservation.end_time >= check_time
-    ).first()
+    reservation = (
+        session.query(Reservation)
+        .filter(
+            Reservation.cabin_id == cabin.id,
+            Reservation.start_time <= check_time,
+            Reservation.end_time >= check_time,
+        )
+        .first()
+    )
 
     if reservation:
         return f"Кабинет {cabin_number} занят до {reservation.end_time} кем: {reservation.user_name}"
     return f"Кабинет {cabin_number} свободен на {check_time}"
 
 
-def reserve_cabin(cabin_number, user_name, user_email, user_phone, start_time, duration_minutes):
+def reserve_cabin(
+    cabin_number, user_name, user_email, user_phone, start_time, duration_minutes
+):
     cabin = session.query(Cabin).filter_by(number=cabin_number).first()
     if not cabin:
         return f"Кабинет {cabin_number} не существует."
 
     end_time = start_time + timedelta(minutes=duration_minutes)
 
-    reservation = session.query(Reservation).filter(
-        Reservation.cabin_id == cabin.id,
-        Reservation.start_time <= end_time,
-        Reservation.end_time >= start_time
-    ).first()
+    reservation = (
+        session.query(Reservation)
+        .filter(
+            Reservation.cabin_id == cabin.id,
+            Reservation.start_time <= end_time,
+            Reservation.end_time >= start_time,
+        )
+        .first()
+    )
 
     if reservation:
         return f"Кабинет {cabin_number} уже занят в это время."
@@ -45,7 +55,7 @@ def reserve_cabin(cabin_number, user_name, user_email, user_phone, start_time, d
         user_email=user_email,
         user_phone=user_phone,
         start_time=start_time,
-        end_time=end_time
+        end_time=end_time,
     )
     session.add(new_reservation)
     session.commit()
